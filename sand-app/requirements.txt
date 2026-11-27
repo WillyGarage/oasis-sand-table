@@ -1,0 +1,16 @@
+fastapi==0.142.2
+uvicorn==0.32.0
+Pillow==11.0.0
+python-multipart==0.0.32
+anthropic==1.8.0
+svgelements==1.9.6
+# faces (server/face_art.py). mediapipe itself is installed with --no-deps in the Dockerfile, because its own
+# dependency list pulls the non-headless OpenCV; these are the parts of that list it really needs.
+numpy==1.26.4
+scipy==1.15.3
+opencv-python-headless==4.10.0.84
+protobuf==4.25.9
+absl-py==2.5.1
+attrs==26.1.0
+flatbuffers==25.12.19
+matplotlib==3.10.9

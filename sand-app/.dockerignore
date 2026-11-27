@@ -1,0 +1,6 @@
+data
+worker
+deploy
+**/__pycache__
+server/tests
+.env

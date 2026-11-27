@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Sand table</title>
+<meta name="theme-color" content="#f5f2e9">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Sand table">
+<link rel="stylesheet" href="app.css">
+</head><body>
+<div id="app">
+<div id="banner"></div>
+<div class="body" id="body">
+<div id="bootErr" class="center" style="display:none;padding-top:60px"><h2>Can't reach the table</h2><p class="sub">Check your signal, then try again.</p><button class="btn" data-act="retry">Try again</button></div>
+
+<!-- who -->
+<div class="sc" id="s-who">
+ <div id="welcome" class="notice ok" style="display:none"></div>
+ <div id="who-main">
+  <h2>Who are you?</h2><p class="sub">Tap your name to join the party.</p>
+  <input type="text" id="search" placeholder="Search names" autocomplete="off">
+  <div id="plist" style="margin-top:10px"></div>
+  <button class="btn sec" data-act="whoNew">I'm not on the list</button>
+ </div>
+ <div id="who-new" style="display:none">
+  <h2>What's your first name?</h2><p class="sub">We'll add you to the list.</p>
+  <input type="text" id="newname" placeholder="First name" maxlength="30" autocomplete="off">
+  <div id="taken" class="notice warn" style="display:none"></div>
+  <div id="newerr" class="err"></div>
+  <button class="btn" id="newgo" data-act="newDone">Continue</button>
+  <button class="link" data-act="whoList">Back to the list</button>
+ </div>
+ <div class="hostlink"><button class="link" data-act="go" data-to="host">Host</button></div>
+</div>
+
+<!-- photo -->
+<div class="sc" id="s-photo">
+ <h2>Your photo</h2>
+ <div id="p-up">
+  <p class="sub">Any photo with your face works. Group photos are fine, we'll find everyone. The photo stays on your phone. Only the faces you pick are sent.</p>
+  <div class="card center" style="border:2px dashed #b9b59f;padding:30px 12px">
+   <div style="font-size:2.4rem">&#128247;</div>
+   <label class="btn pick">Take a photo now<input type="file" id="cam" accept="image/*" capture="user"></label>
+   <label class="btn sec pick">Choose one from my photos<input type="file" id="file" accept="image/*"></label>
+   <div class="dim">Taking one opens your camera. Hold the phone at arm's length and face the light.</div></div>
+  <div id="p-uperr" class="err"></div>
+  <div class="center"><button class="link" data-act="photoSkip">Skip, no photo</button></div>
+ </div>
+ <div id="p-look" style="display:none" class="center"><div class="spin"></div><p>Finding faces...</p></div>
+ <div id="p-make" style="display:none" class="center"><div class="spin"></div><p>Sending your photo...</p></div>
+ <div id="p-faces" style="display:none">
+  <p class="sub" id="faces-sub"></p>
+  <div class="photo" id="photo"></div>
+  <p id="pickline" style="margin:8px 0 0;font-weight:600"></p>
+  <div id="p-facesbusy" class="err"></div>
+  <button class="btn" id="seesand" data-act="showSand">Use this photo</button>
+  <p class="dim center" style="margin:6px 0 0">Your sand drawing is made while you carry on. It shows up on your page in a moment.</p>
+  <button class="link" data-act="photoUp">Use a different photo</button>
+ </div>
+ <div id="p-none" style="display:none">
+  <div class="notice warn"><b>We couldn't find a face in that photo.</b><br>We can still draw what's in the middle of it, or you can try a different one.</div>
+  <div id="p-noneerr" class="err"></div>
+  <button class="btn" data-act="useMiddle">Draw the middle of the photo</button>
+  <button class="btn sec" data-act="photoUp">Use a different photo</button>
+ </div>
+ <div id="p-sand" style="display:none">
+  <h3 style="margin-top:2px">Here's how you'll look in sand</h3>
+  <div id="sandprev"></div>
+  <div class="sim">A preview. The real sand will look a little softer.</div>
+  <button class="btn" data-act="photoDone">Looks good</button>
+  <button class="link" id="sand-other" data-act="photoFaces">Pick a different face</button>
+ </div>
+</div>
+
+<!-- interests -->
+<div class="sc" id="s-interests">
+ <h2>What do you like?</h2><p class="sub">Each one gets its own drawing on the table. Add as many as you like.</p>
+ <div class="card addbox">
+  <label class="lbl" for="itext">Add something you like</label>
+  <input type="text" id="itext" placeholder="reading, my dog, the lake house..." maxlength="200" autocomplete="off" enterkeyhint="done">
+  <div class="cnt" id="i-cnt"></div>
+  <div id="i-err" class="err" role="alert"></div>
+  <div class="addgrid">
+   <div><button class="btn" id="iadd" data-act="addInterest">Add</button><p class="hint">We make a drawing for you. Use commas to add several.</p></div>
+   <div><button class="btn sec" data-act="drawNew">Draw it myself</button><p class="hint">Sketch it with your finger.</p></div>
+  </div>
+ </div>
+ <div id="minelist"></div>
+ <div id="i-done" class="idone"></div>
+</div>
+
+<!-- colour -->
+<div class="sc" id="s-color">
+ <h2>Your light color</h2><p class="sub">Optional. The table's light ring glows this color during your turn.</p>
+ <div class="sw" id="sw"></div>
+ <button class="link" data-act="pickColor" data-i="-1">Skip, any color is fine</button>
+ <h3>Here's you</h3>
+ <div class="card" id="summary"></div>
+ <div id="join-err" class="err"></div>
+ <button class="btn" id="joinbtn" data-act="addMe">Add me to the table</button>
+</div>
+
+<!-- me -->
+<div class="sc" id="s-me">
+ <div class="center" id="me-top"></div>
+ <div id="me-more"></div>
+</div>
+
+<!-- table -->
+<div class="sc" id="s-table">
+ <div id="simnote"></div>
+ <h2>On the table</h2><p class="sub">Everyone is featured in turn, then it starts over. Anyone can watch. No sign-in.</p>
+ <div id="pausedbar"></div>
+ <div id="nowcard"></div>
+ <h3>Coming up</h3>
+ <div id="uplist"></div>
+ <p class="sub" style="font-size:.82rem">People without a photo are featured by name and interests.</p>
+ <div class="hostlink"><button class="link" data-act="go" data-to="host">Host</button></div>
+</div>
+
+<!-- everyone -->
+<div class="sc" id="s-everyone">
+ <h2>Everyone</h2><p class="sub">Everybody at the party and what they like. No sign-in.</p>
+ <div id="evlist"></div>
+</div>
+
+<!-- keepsake -->
+<div class="sc" id="s-keep">
+ <h2 id="keep-h">Your keepsake</h2><p class="sub" id="keep-sub"></p>
+ <img id="keepimg" class="tbl" alt="The whole table in sand">
+ <div class="sim"><b>A preview of the table, not a photo.</b> It's a computer picture of how the sand should look.</div>
+ <button class="btn" data-act="saveKeep">Save picture</button>
+</div>
+
+<!-- host -->
+<div class="sc" id="s-host">
+ <h2>Host</h2><p class="sub">Only for whoever runs the party. No password.</p>
+ <div class="card">
+  <b id="pausetxt">Table is running</b>
+  <button class="btn sec" id="pausesw" data-act="togglePause" style="margin:8px 0 4px">Pause the table</button>
+  <div class="dim">Pause holds the table where it is. Resume picks up again.</div></div>
+ <h3>Erase the whole table</h3>
+ <p class="sub">Wipes every drawing and starts the rotation again from the middle. It takes about 15 to 20 minutes and can't be undone.</p>
+ <div id="erasebox"></div>
+ <h3>The rotation</h3>
+ <div id="hline"></div>
+ <button class="btn sec" data-act="skipNow">Skip the current drawing</button>
+ <h3>Thanksgiving pictures in the middle</h3>
+ <p class="sub">Two of the pictures that are switched on are drawn beside each face in the middle.</p>
+ <div id="artlist"></div>
+ <h3>Add names</h3>
+ <textarea id="addnames" rows="3" placeholder="One name per line, like Maria&#10;Sam&#10;Grandpa Joe"></textarea>
+ <button class="btn sec" data-act="addNames">Add to the list</button>
+ <div id="addmsg"></div>
+ <h3>Guests</h3>
+ <p class="sub">Everyone on the list, joined or not. Remove takes a person off the table and the list.</p>
+ <div id="glist"></div>
+</div>
+
+</div>
+<div class="nav" id="nav"></div>
+
+<div class="pad" id="pad" role="dialog" aria-label="Draw it yourself">
+ <div class="padhead"><h3>Draw it yourself</h3><button class="link" data-act="closePad">Cancel</button></div>
+ <label class="lbl" for="pad-name" id="pad-lbl">What is it?</label>
+ <input type="text" id="pad-name" maxlength="40" placeholder="my dog, the lake house..." autocomplete="off" enterkeyhint="done">
+ <div class="padwrap" id="padwrap"><canvas id="cv" width="600" height="600"></canvas></div>
+ <div class="pgrid"><button class="btn sec" id="pad-undo" data-act="undoPad">Undo</button><button class="btn sec" id="pad-clear" data-act="clearPad">Start over</button></div>
+ <button class="btn" id="pad-use" data-act="donePad">Use my drawing</button>
+ <div id="pad-hint" class="hint padhint" role="status"></div>
+</div>
+</div>
+<script src="app.js"></script>
+</body></html>
