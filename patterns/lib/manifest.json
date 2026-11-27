@@ -1,0 +1,459 @@
+[
+ {
+  "name": "erase_out",
+  "generator": "erase",
+  "params": {
+   "direction": "out",
+   "pitch": 0.03
+  },
+  "points": 8573,
+  "start": "centre",
+  "end": "rim",
+  "estimated_minutes": 20.3,
+  "max_dtheta_deg": 1.4,
+  "max_drho": 0.0001,
+  "description": "Reset: tight spiral centre to rim (pitch 0.03). Leaves flat sand, ball at the rim.",
+  "coverage": 0.92,
+  "layering": "any state: this is the reset pass"
+ },
+ {
+  "name": "erase_in",
+  "generator": "erase",
+  "params": {
+   "direction": "in",
+   "pitch": 0.03
+  },
+  "points": 8573,
+  "start": "rim",
+  "end": "centre",
+  "estimated_minutes": 20.3,
+  "max_dtheta_deg": 1.4,
+  "max_drho": 0.0001,
+  "description": "Reset: tight spiral rim to centre. Leaves flat sand, ball at the centre.",
+  "coverage": 0.92,
+  "layering": "any state: this is the reset pass"
+ },
+ {
+  "name": "ribbon_spiral",
+  "generator": "spiral_breath",
+  "params": {
+   "pitch": 0.05,
+   "amp": 0.012
+  },
+  "points": 5058,
+  "start": "centre",
+  "end": "rim",
+  "estimated_minutes": 12.0,
+  "max_dtheta_deg": 1.4,
+  "max_drho": 0.0021,
+  "description": "Spiral whose lines pinch and swell like woven ribbon.",
+  "coverage": 0.95,
+  "layering": "over a previous drawing is fine (dense, repaints most of the tray)"
+ },
+ {
+  "name": "rose_7_3",
+  "generator": "rhodonea",
+  "params": {
+   "p": 7,
+   "q": 3
+  },
+  "points": 1659,
+  "start": "rim",
+  "end": "rim",
+  "estimated_minutes": 5.0,
+  "max_dtheta_deg": 1.5,
+  "max_drho": 0.01,
+  "description": "Seven-petal rose, one open line through the centre. Quick test.",
+  "coverage": 0.34,
+  "layering": "erase first (sparse lines would mix with old art)"
+ },
+ {
+  "name": "rose_9_4",
+  "generator": "rhodonea",
+  "params": {
+   "p": 9,
+   "q": 4
+  },
+  "points": 4045,
+  "start": "rim",
+  "end": "rim",
+  "estimated_minutes": 12.2,
+  "max_dtheta_deg": 1.5,
+  "max_drho": 0.01,
+  "description": "Nine-lobed rose with doubled petals; the hub fills in gently.",
+  "coverage": 0.68,
+  "layering": "erase first (sparse lines would mix with old art)"
+ },
+ {
+  "name": "rose_layers",
+  "generator": "rose_layers",
+  "params": {},
+  "points": 4711,
+  "start": "rim",
+  "end": "rim",
+  "estimated_minutes": 17.1,
+  "max_dtheta_deg": 1.5,
+  "max_drho": 0.01,
+  "description": "Five-petal roses nested and rotated, like a layered flower.",
+  "coverage": 0.6,
+  "layering": "erase first (sparse lines would mix with old art)"
+ },
+ {
+  "name": "spiro_hypo",
+  "generator": "spirograph",
+  "params": {
+   "r": 0.3125,
+   "d": 0.7
+  },
+  "points": 4120,
+  "start": "rim",
+  "end": "rim",
+  "estimated_minutes": 10.2,
+  "max_dtheta_deg": 1.49,
+  "max_drho": 0.01,
+  "description": "Spirograph (hypotrochoid) lace ring.",
+  "coverage": 0.62,
+  "layering": "erase first (sparse lines would mix with old art)"
+ },
+ {
+  "name": "spiro_epi",
+  "generator": "spirograph",
+  "params": {
+   "r": 0.4166666666666667,
+   "d": 0.8,
+   "kind": "epi"
+  },
+  "points": 3040,
+  "start": "rim",
+  "end": "rim",
+  "estimated_minutes": 6.5,
+  "max_dtheta_deg": 1.5,
+  "max_drho": 0.01,
+  "description": "Epitrochoid lace with a looped inner garland.",
+  "coverage": 0.69,
+  "layering": "erase first (sparse lines would mix with old art)"
+ },
+ {
+  "name": "bloom_star",
+  "generator": "superformula",
+  "params": {
+   "m": 6,
+   "n1": [
+    0.8,
+    0.8
+   ],
+   "n2": [
+    1.0,
+    1.0
+   ],
+   "n3": [
+    1.0,
+    1.0
+   ],
+   "turns": 16
+  },
+  "points": 6015,
+  "start": "rim",
+  "end": "centre",
+  "estimated_minutes": 11.5,
+  "max_dtheta_deg": 1.4,
+  "max_drho": 0.01,
+  "description": "Six-pointed star made of nested lines, shrinking into the centre.",
+  "coverage": 0.59,
+  "layering": "erase first (sparse lines would mix with old art)"
+ },
+ {
+  "name": "bloom_ruffle",
+  "generator": "superformula",
+  "params": {
+   "m": 12,
+   "n1": [
+    1.5,
+    0.6
+   ],
+   "n2": [
+    3,
+    1
+   ],
+   "n3": [
+    3,
+    1
+   ],
+   "turns": 16
+  },
+  "points": 5184,
+  "start": "rim",
+  "end": "centre",
+  "estimated_minutes": 10.9,
+  "max_dtheta_deg": 1.4,
+  "max_drho": 0.01,
+  "description": "Twelve-lobed ruffled flower that sharpens toward the middle.",
+  "coverage": 0.83,
+  "layering": "over a previous drawing is fine (dense, repaints most of the tray)"
+ },
+ {
+  "name": "sunflower",
+  "generator": "sunflower",
+  "params": {},
+  "points": 3432,
+  "start": "centre",
+  "end": "rim",
+  "estimated_minutes": 8.1,
+  "max_dtheta_deg": 1.4,
+  "max_drho": 0.0095,
+  "description": "Fermat spiral with golden-angle ripple: crossing sunflower spirals.",
+  "coverage": 0.89,
+  "layering": "over a previous drawing is fine (dense, repaints most of the tray)"
+ },
+ {
+  "name": "hex_vortex",
+  "generator": "polygon_vortex",
+  "params": {
+   "n": 6,
+   "step": 1,
+   "circuits": 19,
+   "twist": 0.06
+  },
+  "points": 5146,
+  "start": "rim",
+  "end": "centre",
+  "estimated_minutes": 12.1,
+  "max_dtheta_deg": 1.5,
+  "max_drho": 0.01,
+  "description": "Hexagon spiralling inward, one straight-line vortex.",
+  "coverage": 0.82,
+  "layering": "over a previous drawing is fine (dense, repaints most of the tray)"
+ },
+ {
+  "name": "square_vortex",
+  "generator": "polygon_vortex",
+  "params": {
+   "n": 4,
+   "step": 1,
+   "circuits": 24,
+   "twist": 0.1
+  },
+  "points": 6890,
+  "start": "rim",
+  "end": "centre",
+  "estimated_minutes": 15.5,
+  "max_dtheta_deg": 1.5,
+  "max_drho": 0.01,
+  "description": "Square spiralling inward into a whirl.",
+  "coverage": 0.69,
+  "layering": "erase first (sparse lines would mix with old art)"
+ },
+ {
+  "name": "star_pinwheel",
+  "generator": "polygon_vortex",
+  "params": {
+   "n": 8,
+   "step": 3,
+   "circuits": 14,
+   "twist": 0.04
+  },
+  "points": 10865,
+  "start": "rim",
+  "end": "centre",
+  "estimated_minutes": 28.9,
+  "max_dtheta_deg": 1.88,
+  "max_drho": 0.0125,
+  "description": "Eight-point star that twists into a pinwheel. The long one (~29 min).",
+  "coverage": 0.59,
+  "layering": "erase first (sparse lines would mix with old art)"
+ },
+ {
+  "name": "ripple_rings",
+  "generator": "ripple_rings",
+  "params": {},
+  "points": 3721,
+  "start": "centre",
+  "end": "rim",
+  "estimated_minutes": 8.8,
+  "max_dtheta_deg": 1.4,
+  "max_drho": 0.0063,
+  "description": "Concentric rings with phase-shifted ripples: pond interference.",
+  "coverage": 0.95,
+  "layering": "over a previous drawing is fine (dense, repaints most of the tray)"
+ },
+ {
+  "name": "dunes",
+  "generator": "dunes",
+  "params": {
+   "wobble": 0.06,
+   "cycles": 0.75,
+   "drift": 1.0,
+   "sweeps": 84,
+   "r_in": 0.5
+  },
+  "points": 4838,
+  "start": "rim",
+  "end": "rim",
+  "estimated_minutes": 7.9,
+  "max_dtheta_deg": 1.4,
+  "max_drho": 0.0091,
+  "description": "Ring of wavy radial sweeps, like combed dunes around a calm eye.",
+  "coverage": 0.74,
+  "layering": "erase first (sparse lines would mix with old art)"
+ },
+ {
+  "name": "taiji",
+  "generator": "taiji",
+  "params": {},
+  "points": 2910,
+  "start": "centre",
+  "end": "rim",
+  "estimated_minutes": 7.0,
+  "max_dtheta_deg": 1.5,
+  "max_drho": 0.01,
+  "description": "Bold yin-yang: striped S-shaped half against smooth sand.",
+  "coverage": 0.52,
+  "layering": "erase first: the smooth half must start clean"
+ },
+ {
+  "name": "moire_a",
+  "generator": "moire",
+  "params": {
+   "role": "a"
+  },
+  "points": 2860,
+  "start": "centre",
+  "end": "rim",
+  "estimated_minutes": 6.8,
+  "max_dtheta_deg": 1.4,
+  "max_drho": 0.0005,
+  "description": "Moire pair, part 1: centred spiral. Draw first (ends rim).",
+  "coverage": 0.85,
+  "layering": "erase first; then draw moire_b straight over it"
+ },
+ {
+  "name": "moire_b",
+  "generator": "moire",
+  "params": {
+   "role": "b"
+  },
+  "points": 2035,
+  "start": "rim",
+  "end": "centre",
+  "estimated_minutes": 4.9,
+  "max_dtheta_deg": 1.5,
+  "max_drho": 0.01,
+  "description": "Moire pair, part 2: off-centre spiral drawn over part 1 (starts rim).",
+  "coverage": 0.55,
+  "layering": "draw straight over moire_a, no erase between"
+ },
+ {
+  "name": "lissajous",
+  "generator": "lissajous",
+  "params": {
+   "a": 7,
+   "b": 9
+  },
+  "points": 2933,
+  "start": "rim",
+  "end": "rim",
+  "estimated_minutes": 6.1,
+  "max_dtheta_deg": 1.5,
+  "max_drho": 0.01,
+  "description": "Lissajous basket weave filling the disc. Quick test.",
+  "coverage": 0.67,
+  "layering": "erase first (sparse lines would mix with old art)"
+ },
+ {
+  "name": "lissajous_weave",
+  "generator": "lissajous",
+  "params": {
+   "a": 3,
+   "b": 4,
+   "copies": 3,
+   "rot": 0.35
+  },
+  "points": 3603,
+  "start": "rim",
+  "end": "rim",
+  "estimated_minutes": 9.1,
+  "max_dtheta_deg": 1.5,
+  "max_drho": 0.01,
+  "description": "Three rotated Lissajous loops: bold crossing bands.",
+  "coverage": 0.7,
+  "layering": "erase first (sparse lines would mix with old art)"
+ },
+ {
+  "name": "galaxy",
+  "generator": "galaxy",
+  "params": {},
+  "points": 6023,
+  "start": "centre",
+  "end": "centre",
+  "estimated_minutes": 15.0,
+  "max_dtheta_deg": 1.48,
+  "max_drho": 0.01,
+  "description": "Five-armed logarithmic spiral galaxy with a bright core.",
+  "coverage": 0.58,
+  "layering": "erase first (sparse lines would mix with old art)"
+ },
+ {
+  "name": "mandala",
+  "generator": "mandala",
+  "params": {
+   "zones": [
+    [
+     8,
+     0,
+     0.35
+    ],
+    [
+     12,
+     0.35,
+     0.7
+    ],
+    [
+     16,
+     0.7,
+     0.97
+    ]
+   ],
+   "pitch": 0.058,
+   "amp": 0.07,
+   "sharp": 0.7
+  },
+  "points": 4639,
+  "start": "centre",
+  "end": "rim",
+  "estimated_minutes": 10.5,
+  "max_dtheta_deg": 1.4,
+  "max_drho": 0.01,
+  "description": "Mirrored petal rings of changing count.",
+  "coverage": 0.95,
+  "layering": "over a previous drawing is fine (dense, repaints most of the tray)"
+ },
+ {
+  "name": "harmonograph",
+  "generator": "harmonograph",
+  "params": {
+   "f": [
+    2,
+    3,
+    3,
+    2.02
+   ],
+   "phase": [
+    0,
+    0,
+    1.57,
+    0
+   ],
+   "decay": 0.06,
+   "turns": 40
+  },
+  "points": 7560,
+  "start": "rim",
+  "end": "centre",
+  "estimated_minutes": 17.7,
+  "max_dtheta_deg": 1.5,
+  "max_drho": 0.01,
+  "description": "Damped pendulum drawing spiralling in from the rim.",
+  "coverage": 0.49,
+  "layering": "erase first (sparse lines would mix with old art)"
+ }
+]
