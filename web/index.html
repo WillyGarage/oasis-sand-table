@@ -1,0 +1,236 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Oasis</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{font:17px/1.45 -apple-system,Segoe UI,Roboto,sans-serif;color:#1d1d1f;background:#f6f4ef;margin:0}
+main{max-width:520px;margin:0 auto;padding:16px}
+h1{font-size:24px;margin:6px 0 10px}
+.card{background:#fff;border-radius:14px;padding:14px 16px;margin:12px 0;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card h2{font-size:14px;margin:0 0 8px;color:#6b6b70;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+#now{font-size:20px;font-weight:600} .sub{color:#6b6b70;font-size:15px;margin-top:2px}
+.bar{height:8px;background:#e8e4da;border-radius:4px;margin-top:10px;overflow:hidden} .bar div{height:100%;background:#c9772b;width:0;transition:width .6s}
+button{font:inherit;padding:11px 14px;margin:4px 4px 4px 0;border-radius:10px;border:1px solid #d6d1c4;background:#faf8f3;color:#1d1d1f}
+button:active{filter:brightness(.93)}
+button.on{background:#1d1d1f;color:#fff;border-color:#1d1d1f} button.stop{background:#b3261e;color:#fff;border-color:#b3261e}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.big button{margin:0;padding:15px 8px;font-weight:600;min-height:56px}
+.big .stop{grid-column:1/3;font-size:20px}
+input[type=range]{width:100%;accent-color:#c9772b}
+#msg{color:#6b6b70;font-size:14px;min-height:20px;margin-top:8px}
+#msg.err{color:#b3261e}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid .it{margin:0;padding:0;background:#faf8f3;border:1px solid #e8e4da;border-radius:12px;overflow:hidden;text-align:left;display:block;width:100%}
+.grid img,.sheet img{display:block;width:100%;aspect-ratio:1;object-fit:cover;background:#e8e4da}
+.grid .t{padding:6px 10px 0;font-weight:600;font-size:16px}
+.grid .m{padding:0 10px 8px;font-size:13px;color:#6b6b70}
+#ov{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:flex-end;justify-content:center;z-index:5}
+#ov.show{display:flex}
+.sheet{background:#fff;border-radius:18px 18px 0 0;padding:16px;width:100%;max-width:520px;max-height:92vh;overflow:auto}
+.sheet img{width:60%;max-width:260px;margin:0 auto 8px;border-radius:12px}
+.sheet h3{margin:0;font-size:22px;text-align:center}
+.sheet .m{text-align:center;color:#6b6b70;font-size:14px;margin-bottom:8px}
+.sheet label{display:flex;gap:10px;align-items:center;margin:10px 0;font-size:17px}
+.sheet input[type=checkbox],details input[type=checkbox]{width:22px;height:22px;accent-color:#1d1d1f}
+.sheet button{display:block;width:100%;margin:6px 0}
+details.card summary{font-size:14px;font-weight:600;color:#6b6b70;text-transform:uppercase;letter-spacing:.04em;cursor:pointer}
+details.card[open] summary{margin-bottom:8px}
+.s{font-weight:600;margin-top:14px}
+.note{color:#6b6b70;font-size:14px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0}
+input[type=time]{font:inherit;padding:8px;border:1px solid #d6d1c4;border-radius:10px;background:#faf8f3}
+.grey{color:#9a9a9f;font-size:13px;margin-top:14px}
+.pvr{display:flex;gap:12px;align-items:flex-start}.pvt{flex:1;min-width:0}
+#pv{width:120px;height:120px;flex:none;border-radius:12px;overflow:hidden;background:#e8e4da;display:none}
+#pv img,#pv canvas{display:block;width:100%;height:100%}
+#keep{display:none;margin:10px 0 0}
+.grid canvas{display:block;width:100%;aspect-ratio:1;background:#e8e4da}
+.grid .t:last-child{padding-bottom:10px}
+.sheet canvas{display:none;width:60%;max-width:260px;aspect-ratio:1;margin:0 auto 8px;border-radius:12px}
+.sw{width:44px;height:44px;padding:0;border-radius:50%;margin:4px 8px 4px 0;border:2px solid #fff;box-shadow:0 0 0 1px #d6d1c4}
+.sw.on{box-shadow:0 0 0 3px #1d1d1f}
+.big .wide,#aon{grid-column:1/3}
+.big+.grey{margin:10px 0 0}
+</style></head><body><main>
+<h1>Oasis</h1>
+<div class=card><div class=pvr><div class=pvt><div id=now>Looking for the table...</div><div class=sub id=sub></div><div class=sub id=nxt></div><div class=sub id=qh></div><div class=bar><div id=bar></div></div></div>
+<div id=pv><img id=pvi alt=""><canvas id=pvc width=240 height=240></canvas></div></div>
+<button id=keep onclick="c('/fav?add=now',lf)">Keep this one</button></div>
+<div class=card><div class=big>
+<button class=stop onclick="c('/stop')">Stop</button>
+<button id=pz class=wide onclick="c('/pause?on='+(pzd?0:1))">Pause</button>
+<button id=aon class=wide onclick="auto()">Let it draw by itself</button>
+<button onclick="c('/gen?kind=erase_out')">Erase</button>
+<button onclick="c('/smooth')">Smooth the sand</button>
+<button onclick="c('/gen?kind=random')" class=wide>One new piece</button>
+</div><div class=grey>Erase clears the sand once. Smooth the sand goes out and back for the flattest finish.</div><div id=msg></div></div>
+<div class=card><a href="/guests" style="color:#285137;font-weight:600">Guest drawings</a><div class=note>Draw for the people here, suggest a subject, or use a photo.</div></div>
+<div class=card><h2>Pick a drawing</h2><div class=grid id=grid><div class=note>Loading...</div></div></div>
+<div class=card id=favc style="display:none"><h2>Kept designs</h2><div class=grid id=fgrid></div></div>
+<div class=card><h2>Light</h2>
+<button id=l9 onclick="c('/led?mode=auto')">Automatic</button>
+<button id=l8 onclick="c('/led?mode=show')">Show light</button>
+<button id=l6 onclick="c('/led?mode=follow')">Follow the ball</button>
+<button id=l1 onclick="c('/led?mode=solid')">Even</button>
+<button id=l10 onclick="c('/led?mode=aurora')">Aurora</button>
+<button id=l11 onclick="c('/led?mode=breath')">Breathing guide</button>
+<button id=l12 onclick="c('/led?mode=fireflies')">Fireflies</button>
+<button id=l0 onclick="c('/led?mode=off')">Off</button>
+<div class=grey>Automatic follows the ball while it draws and lights a finished piece from one side, slowly circling, so the lines cast shadows. Fireflies: a few soft lights slowly glow and fade at random places round the bowl.</div>
+<div class=row id=sws></div>
+<button id=ld onclick="c('/led?drift='+($('ld').className=='on'?0:1))">Slowly change colour</button>
+<button id=lm onclick="c('/led?mood='+($('lm').className=='on'?0:1))">A colour for each piece</button>
+<button id=le onclick="c('/led?evening='+($('le').className=='on'?0:1))">Dim in the evening</button>
+<button id=lw onclick="c('/led?warm='+($('lw').className=='on'?0:1))">Warmer in the evening</button>
+<button id=lt onclick="c('/led?trail='+($('lt').className=='on'?0:1))">Glow where the ball has been</button>
+<button id=lf onclick="c('/led?fill='+($('lf').className=='on'?0:1))">Ring fills as it draws</button>
+<div class=row>When resting, Automatic shows
+<button id=lr0 onclick="c('/led?rest=0')">Show light</button>
+<button id=lr1 onclick="c('/led?rest=1')">Aurora</button>
+<button id=lr2 onclick="c('/led?rest=2')">Fireflies</button></div>
+<div class=row>Any colour <input type=color id=lcp value="#ffb060" onchange="c('/led?c='+this.value.slice(1))"></div>
+<div class=row>Speed of the moving lights <input type=range id=lsp min=25 max=400 onchange="c('/led?speed='+(this.value/100))"></div>
+<div class=grey>Breathing guide: breathe in while it brightens (4 seconds), hold (7), breathe out as it fades (8).</div>
+<input id=br type=range min=0 max=255 value=128 onchange="c('/led?b='+this.value)"></div>
+<details class=card><summary>Settings</summary>
+<div class=s>When it is plugged in</div>
+<button id=b1 onclick="c('/auto?boot=1')">Start drawing by itself</button><button id=b0 onclick="c('/auto?boot=0')">Wait for me</button>
+<div class=note>This only decides what happens the next time the table is powered up.</div>
+<div class=s>A finished piece stays on show for</div>
+<button id=h300 onclick="c('/auto?hold=300')">5 min</button><button id=h600 onclick="c('/auto?hold=600')">10 min</button><button id=h1200 onclick="c('/auto?hold=1200')">20 min</button><button id=h3600 onclick="c('/auto?hold=3600')">60 min</button>
+<div class=s>Quiet hours</div>
+<label class=row><input type=checkbox id=qon onchange="qd=1"> Use quiet hours</label>
+<div class=row>From <input type=time id=qf onchange="qd=1"> to <input type=time id=qt onchange="qd=1"> <button onclick="saveQ()">Save</button></div>
+<div class=note>During quiet hours it finishes the piece it is on and then waits.</div>
+<div class=s>Before each new drawing</div>
+<div class=row><button id=ef1 onclick="c('/cfg?erase_first=1')">Erase the sand first</button> <button id=ef0 onclick="c('/cfg?erase_first=0')">Draw on top of the last one</button></div>
+<div class=note>Drawing on top starts each new piece from where the ball already is, so no stray line crosses the sand. The table checks its own position whenever it erases, so erase about once a day.</div>
+<div class=s>Which side is the bottom of a picture</div>
+<div class=row><button onclick="c('/cfg?turn=15')">Anticlockwise</button> <button onclick="c('/cfg?turn=-15')">Clockwise</button> <button onclick="c('/cfg?mark=1')">Show me</button></div>
+<div class=note>A bright light on the ring marks the bottom of every picture. Press until it is on the side nearest you. This works while the table is resting.</div>
+<div class=s>When it draws by itself, it draws</div>
+<div class=row><button id=m0 onclick="c('/auto?mix=0')">Its own designs</button> <button id=m1 onclick="c('/auto?mix=1')">Stored drawings</button> <button id=m2 onclick="c('/auto?mix=2')">A mix</button></div>
+<div class=s>The button on the table</div>
+<div class=note>While it is drawing, one press pauses it and the next carries on. While it is resting, a press starts it drawing by itself.</div>
+<div class=s>Find home</div>
+<button onclick="c('/home')">Find home</button>
+<div class=grey id=ver></div>
+</details>
+<div id=ov onclick="if(event.target==this)closeS()"><div class=sheet>
+<img id=sim alt=""><canvas id=scv width=360 height=360></canvas><h3 id=stt></h3><div class=m id=smn></div>
+<label><input type=checkbox id=ser checked> Erase the sand first</label>
+<button class=on onclick="go(1)">Draw it now</button>
+<button onclick="go(0)">Add to the queue</button>
+<button id=srm onclick="rmF()" style="display:none">Remove from kept designs</button>
+<button onclick="closeS()">Cancel</button></div></div>
+<script>
+var $=function(i){return document.getElementById(i)};
+var K={bloom:'a flower',vortex:'a turning shape',weave:'a woven spiral',arms:'a pinwheel',super:'a soft star',ripple:'a mandala',lotus:'a lotus',erase_out:'erasing',erase_in:'erasing'};
+var T={},pats=[],qd=0,cur='',curF='',favs=[],pk='',pf=0;
+var SW=[['Warm white','fff4e0'],['Amber','ffb060'],['Rose','ff7a6e'],['Violet','a78bff'],['Teal','5fd0c0']];
+var LB={bloom:['Flower',' petals'],arms:['Pinwheel',' arms'],vortex:['Turning shape',' sides'],weave:['Woven spiral',''],super:['Soft star',' points'],ripple:['Mandala',' petals'],lotus:['Lotus',' petals']};
+function say(t,e){$('msg').textContent=t;$('msg').className=e?'err':''}
+function c(u,after){fetch(u).then(function(r){return r.text().then(function(t){
+ t=t.trim();if(!r.ok)say(t||'The table said no.',1);else say(t||'Done.');if(after)after(r.ok);p()})
+}).catch(function(){say('Could not reach the table.',1)})}
+function auto(){c('/auto?on='+($('aon').className=='on'?0:1))}
+function nm(s){if(!s)return '';if(s=='check')return 'a quick self-check';if(s=='new piece')return 'a new piece';var w=String(s).split(' ')[0];
+ if(w.indexOf('erase')==0)return 'erasing';if(T[w])return T[w];return K[w]||w}
+function mm(n){n=Math.round(n)%1440;var h=Math.floor(n/60),m=n%60;return (h<10?'0':'')+h+':'+(m<10?'0':'')+m}
+function pm(s){var a=(s||'').split(':');return (+a[0])*60+(+a[1]||0)}
+function left(s){if(!(s>0))return '';return s<90?'less than 2 min left':'about '+Math.round(s/60)+' min left'}
+var pzd=false,ef=1;
+function cls(id,on){var e=$(id);if(e)e.className=on?'on':''}
+function p(){fetch('/status').then(function(x){return x.json()}).then(function(d){
+ var st=d.state||'idle',w=nm(d.now||d.gen),er=w=='erasing',t,s='',pr=d.progress>0?d.progress:0,nx='';
+ ef=(d.erase_first==null||d.erase_first)?1:0;cls('ef1',ef);cls('ef0',!ef);pzd=!!d.paused;var pb=$('pz');if(pb){pb.textContent=pzd?'Carry on':'Pause';pb.className='wide'+(pzd?' on':'');pb.style.display=(st=='idle'||d.paused==null)?'none':''}
+ if(d.fault)t='Stopped: a motor slipped. Press Find home.';
+ else if(st=='stopping')t='Stopping';
+ else if(d.paused&&st!='idle'){t='Paused';s='Press the button on the table, or Carry on.'}
+ else if(d.job=='home'&&st!='idle')t='Finding home';
+ else if(d.job=='rehome'&&st!='idle')t='Checking its position';
+ else if(st=='drawing'||st=='moving'){
+  if(er){t='Erasing';s=left(d.eta_s)}
+  else{t=w?'Drawing '+w:(st=='moving'?'Moving':'Drawing');
+   s=(pr>0?Math.round(pr*100)+'% done':'');var l=left(d.eta_s);if(l)s+=(s?', ':'')+l}}
+ else if(d.homed===0||d.homed==='0')t='Not homed yet. Press Find home.';
+ else if(d.auto&&d.auto_wait>0){t='Finished piece on show';s='Next one starts in '+(d.auto_wait<90?'less than 2':Math.round(d.auto_wait/60))+' min'}
+ else t='Idle';
+ if(d.auto&&!s&&t=='Idle')s='Drawing by itself';
+ $('now').textContent=t;$('sub').textContent=s;
+ var q=d.queue||[];$('nxt').textContent=q.length?'Up next: '+q.map(function(x){var n=nm(x);return n=='erasing'?'erase':n}).join(', '):'';
+ $('qh').textContent=(d.quiet&&d.quiet_to!=null)?'Quiet hours: it will not start new pieces until '+mm(d.quiet_to):'';
+ $('bar').style.width=(st=='drawing'||st=='moving'?Math.round(Math.min(1,pr)*100):0)+'%';
+ $('aon').className=d.auto?'on':'';$('aon').textContent=d.auto?'Stop drawing by itself':'Let it draw by itself';
+ cls('b1',d.auto_boot);cls('b0',d.auto_boot!=null&&!d.auto_boot);
+ [300,600,1200,3600].forEach(function(h){cls('h'+h,d.auto_hold==h)});
+ [0,1,6,8,9,10,11,12].forEach(function(m){cls('l'+m,d.led_mode===m)});cls('lf',d.led_fill);[0,1,2].forEach(function(r){cls('lr'+r,d.led_rest===r)});cls('lw',d.led_warm);cls('lt',d.led_trail);if(document.activeElement!=$('lsp')&&d.led_speed)$('lsp').value=Math.round(d.led_speed*100);[0,1,2].forEach(function(m){cls('m'+m,d.auto_mix===m)});
+ if(document.activeElement!=$('br')&&d.led_b!=null)$('br').value=d.led_b;
+ var ae=document.activeElement;
+ if(!qd&&ae!=$('qf')&&ae!=$('qt')&&ae!=$('qon')){$('qon').checked=!!d.quiet_on;
+  if(d.quiet_from!=null)$('qf').value=mm(d.quiet_from);if(d.quiet_to!=null)$('qt').value=mm(d.quiet_to)}
+ pvu(d,st,pr,w,er);
+ [0,1,2,3,4].forEach(function(i){var e=$('sw'+i);if(e)e.className='sw'+(d.led_c&&String(d.led_c).toLowerCase()==SW[i][1]?' on':'')});
+ cls('ld',d.led_drift==1);cls('lm',d.led_mood);cls('le',d.led_evening);
+ $('ver').textContent=(d.fw?'Software '+d.fw:'')+(d.time?(d.fw?'. ':'')+'Table time '+d.time:'');
+}).catch(function(){$('now').textContent='Table not answering';$('sub').textContent='';$('nxt').textContent='';$('qh').textContent='';$('bar').style.width='0'})}
+function parse(s){var w=String(s).split(' '),o={k:w[0],n:6,d:.45,g:1,T:20,w:0,q:2,e:.1};
+ for(var i=1;i<w.length;i++){var a=w[i].split('=');if(a.length==2&&o.hasOwnProperty(a[0])&&a[0]!='k'){var v=parseFloat(a[1]);if(!isNaN(v))o[a[0]]=v}}
+ if(!(o.T>0))o.T=20;if(!(o.n>0))o.n=6;if(!(o.q>0))o.q=2;return o}
+function mk(o,step){var N=Math.round(o.T*360),P=[],k,u,th,s,sh,c,m,sg,ph,r;
+ for(k=0;k<=N;k+=(k+step>N&&k<N?N-k:step)){u=k/N;th=2*Math.PI*o.T*u;s=1-u;
+  if(o.k=='bloom'){c=Math.abs(Math.cos(o.n*(th+o.w*u)/2));sh=1-o.d*(1-Math.pow(c,o.g))}
+  else if(o.k=='arms'){c=Math.abs(Math.cos(o.n*(th+o.w*Math.log(1/(1-u+.04)))/2));sh=1-o.d*(1-Math.pow(c,o.g))}
+  else if(o.k=='vortex'){sg=2*Math.PI/o.n;ph=((th+o.w*u)%sg+sg)%sg;sh=Math.cos(Math.PI/o.n)/Math.cos(ph-Math.PI/o.n)}
+  else if(o.k=='super'){ph=o.n*(th+o.w*u)/4;sh=Math.pow(Math.pow(Math.abs(Math.cos(ph)),o.g)+Math.pow(Math.abs(Math.sin(ph)),o.g),-1/o.g)/Math.max(1,Math.pow(2,0.5-1/o.g))}
+  else if(o.k=='ripple'){sh=1-o.d*(0.5+0.5*Math.cos(o.n*th))*(0.5-0.5*Math.cos(2*Math.PI*o.q*u))}
+  else if(o.k=='lotus'){var xb=(1-u)*o.q,bb=Math.min(Math.floor(xb),o.q-1),fb=xb-bb;sh=1-o.d*Math.sqrt(Math.max(0,Math.sin(Math.PI*fb)))*(1-Math.pow(Math.abs(Math.cos((o.n+2*bb)*th/2)),o.g))}
+  else{m=o.n+1/o.q;sh=(1+o.e*Math.sin(m*th))/(1+o.e)}
+  r=Math.max(0,Math.min(1,s*sh));P.push([r*Math.cos(th),-r*Math.sin(th)])}
+ return P}
+function seg(x,P,m,cx,R){x.beginPath();for(var i=0;i<=m&&i<P.length;i++){var X=cx+R*P[i][0],Y=cx+R*P[i][1];if(i)x.lineTo(X,Y);else x.moveTo(X,Y)}x.stroke()}
+function drw(cv,desc,frac,step){var W=cv.width,x=cv.getContext('2d'),cx=W/2,R=cx-W*.03,P=mk(parse(desc),step);
+ x.clearRect(0,0,W,W);x.fillStyle='#efe3c8';x.beginPath();x.arc(cx,cx,R+W*.02,0,7);x.fill();
+ x.lineJoin='round';x.lineWidth=Math.max(1,W/160);
+ if(frac<1){x.strokeStyle='rgba(60,40,20,.3)';seg(x,P,P.length,cx,R);x.strokeStyle='#3b2a1a';x.lineWidth=Math.max(1.4,W/110)}
+ else x.strokeStyle='#3b2a1a';
+ seg(x,P,Math.floor(Math.min(1,frac)*(P.length-1)),cx,R)}
+function kind(s){var k=String(s||'').split(' ')[0];return LB[k]?k:''}
+function lab(s){var k=kind(s),o=parse(s),l=LB[k][0];if(k!='weave')l+=', '+Math.round(o.n)+LB[k][1];return l}
+function pvu(d,st,pr,w,er){var nw=d.now||d.gen||'',sf=kind(nw),lib=!sf&&!er&&pats.some(function(x){return x.name==nw}),
+ dr=st=='drawing'||st=='moving',fr=dr?Math.min(1,pr):1,key=(sf?'s':lib?'l':'n')+nw;
+ $('keep').style.display=sf?'inline-block':'none';
+ if(!sf&&!lib){$('pv').style.display='none';pk='';return}
+ $('pv').style.display='block';$('pvi').style.display=lib?'block':'none';$('pvc').style.display=sf?'block':'none';
+ if(key==pk&&Math.abs(fr-pf)<=.01)return;pk=key;pf=fr;
+ if(lib)$('pvi').src='/lib/'+nw+'.jpg';else drw($('pvc'),nw,fr,3)}
+function lf(){fetch('/fav').then(function(r){return r.json()}).then(function(a){favs=Array.isArray(a)?a.filter(kind):[];
+ var g=$('fgrid');g.innerHTML='';$('favc').style.display=favs.length?'block':'none';
+ favs.forEach(function(x,i){var b=document.createElement('button');b.className='it';
+  var cv=document.createElement('canvas');cv.width=cv.height=200;drw(cv,x,1,6);
+  var a1=document.createElement('div');a1.className='t';a1.textContent=lab(x);
+  b.appendChild(cv);b.appendChild(a1);b.onclick=function(){openF(i)};g.appendChild(b)});
+ }).catch(function(){$('favc').style.display='none'})}
+function openF(i){curF=favs[i];cur='';$('sim').style.display='none';$('scv').style.display='block';drw($('scv'),curF,1,3);
+ $('stt').textContent=lab(curF);$('smn').textContent='';$('srm').style.display='block';$('ser').checked=!!ef;$('ov').className='show'}
+function rmF(){var f=curF;closeS();c('/fav?del='+encodeURIComponent(f),lf)}
+function saveQ(){c('/cfg?quiet_on='+($('qon').checked?1:0)+'&quiet_from='+pm($('qf').value)+'&quiet_to='+pm($('qt').value),function(ok){if(ok)qd=0})}
+function lp(){fetch('/patterns').then(function(r){return r.json()}).then(function(a){
+ pats=a.filter(function(x){return x.name&&x.name.indexOf('erase')!=0});
+ pats.forEach(function(x){T[x.name]=x.title||x.name});
+ var g=$('grid');g.innerHTML='';
+ pats.forEach(function(x,i){var b=document.createElement('button');b.className='it';
+  var im=document.createElement('img');im.loading='lazy';im.alt='';im.src='/lib/'+x.name+'.jpg';
+  var a1=document.createElement('div');a1.className='t';a1.textContent=x.title||x.name;
+  var a2=document.createElement('div');a2.className='m';a2.textContent=x.minutes?'about '+x.minutes+' min':'';
+  b.appendChild(im);b.appendChild(a1);b.appendChild(a2);b.onclick=function(){openS(i)};g.appendChild(b)});
+ if(!pats.length)g.innerHTML='<div class=note>No drawings found.</div>';
+}).catch(function(){setTimeout(lp,3000)})}
+function openS(i){var x=pats[i];cur=x.name;curF='';$('sim').style.display='';$('scv').style.display='none';$('srm').style.display='none';$('sim').src='/lib/'+x.name+'.jpg';$('stt').textContent=x.title||x.name;
+ $('smn').textContent=x.minutes?'about '+x.minutes+' min':'';$('ser').checked=!!ef;$('ov').className='show'}
+function closeS(){$('ov').className=''}
+function go(now){var u='/draw?'+(curF?'spec='+encodeURIComponent(curF):'name='+encodeURIComponent(cur))+'&erase='+($('ser').checked?1:0)+'&now='+now;closeS();c(u)}
+SW.forEach(function(a,i){var b=document.createElement('button');b.id='sw'+i;b.className='sw';b.style.background='#'+a[1];b.title=a[0];b.setAttribute('aria-label',a[0]);
+ b.onclick=function(){c('/led?c='+a[1])};$('sws').appendChild(b)});
+lp();lf();p();setInterval(p,1500);setInterval(lf,30000);
+</script></main></body></html>
