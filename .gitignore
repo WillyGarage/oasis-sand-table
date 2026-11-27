@@ -1,0 +1,19 @@
+# Wi-Fi password and upload key
+wifi_creds.h
+.env*
+secrets/
+
+# Flash dumps of the factory firmware (they hold the device's own key)
+backup/
+
+# Build output and camera captures
+build/
+firmware/build-*/
+captures/
+patterns/*.thr
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+sand-app/data/
+.pytest_cache/

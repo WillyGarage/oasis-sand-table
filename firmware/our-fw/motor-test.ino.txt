@@ -1,0 +1,10 @@
+/* Oasis Mini — GENTLE motor confirm. NOT auto-run: every motor action is an explicit
+ * HTTP command, low duty, brief. Boot state = all coils 0, enables LOW (drivers asleep).
+ * Pins (firmware-derived, bench-confirm): Motor A J7_A1 theta = 7,8,9,10 ; Motor B
+ * J7_A2 rho = 1,2,3,4 ; enables 34,14 ; home inputs 5,11.
+ *   /wake        drive enables 34,14 HIGH (wake DRV8833s)
+ *   /sleep       enables LOW, all coils 0
+ *   /hold?m=A&c=0&d=200   PWM one coil input to duty d (0-1023, keep <300), others 0
+ *   /release     all coils 0 (motors freewheel, enables stay)
+ *   /home        read GPIO5 / GPIO11 levels (endstop state)
+ * One coil energized = the motor DETENTS/holds, it must NOT spin. Watch the arm. */

@@ -1,0 +1,6 @@
+#pragma once
+// Copy to wifi_creds.h (gitignored) and fill in.
+#define WIFI_SSID "your-2.4GHz-network"
+#define WIFI_PASS "your-wifi-password"
+// key for file uploads and firmware updates over Wi-Fi (/fs, /update). Not a secret from the household, just a guard.
+#define ADMIN_KEY "pick-any-string"

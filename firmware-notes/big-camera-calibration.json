@@ -1,0 +1,22 @@
+{
+ "H_table_steps_to_image": [
+  [
+   0.005401064016674927,
+   0.0034530050861616263,
+   1293.142375938637
+  ],
+  [
+   -0.0015421018670616438,
+   0.0019926529207675765,
+   392.46340123186616
+  ],
+  [
+   2.383022498448212e-06,
+   -7.415193994255518e-07,
+   1.0
+  ]
+ ],
+ "coupling": 0.16550814983239776,
+ "rho0_steps": -201.71436338979163,
+ "note": "table point = rho*(cos th, sin th) in radius-motor steps, rho = r - coupling*a + rho0, th = 2*pi*a/38400, with r, a the firmware counters after /homearm and /homeradius; fitted 51 points on three circles, rms 1.32 px"
+}
